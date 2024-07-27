@@ -51,6 +51,9 @@ const countriesContainer = document.querySelector(".countries");
 // getCountryData("mexico");
 
 const renderCountry = function (data, className = "") {
+  const name = data.name.common;
+  const flag = data.flags.svg;
+  const region = data.region;
   const currency = Object.values(data.currencies)[0].name;
   const language = Object.values(data.languages)[0];
 
@@ -128,11 +131,67 @@ const renderCountry = function (data, className = "") {
 //     });
 // };
 
+// THROW ERROR WITH LECTURE
+// const getCountryData = function (country) {
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//     .then(response => response.json())
+//     .then(data => {
+//       renderCountry(data[0]);
+//       const neighbour = data[0].borders?.[0];
+
+//       if (!neighbour) return;
+
+//       // Country 2
+//       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+//     })
+//     .then(response => response.json())
+//     .then(
+//       // data => console.log(data[0].borders)
+//       renderCountry(data[0]),
+//       "neighbour"
+//     );
+
+// NEW CODE WITH UPDATED API
 const getCountryData = function (country) {
+  // Country 1
   fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then(response => response.json())
-    .then(data => renderCountry(data[0]));
+    .then(response => {
+      console.log(response);
+
+      if (!response.ok)
+        throw new Error(`Country not found (${response.status})`);
+
+      return response.json();
+    })
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
+      // const neighbour = "dfsdfdef";
+
+      if (!neighbour) return;
+
+      // Country 2
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+    })
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`Country not found (${response.status})`);
+
+      return response.json();
+    })
+    .then(data => {
+      [data] = data;
+      renderCountry(data, "neighbour");
+    })
+    .catch(err => {
+      console.error(`${err} 💥💥💥`);
+      renderError(`Something went wrong 💥💥 ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
 };
 
 // getCountryData("portugal");
-getCountryData("gb");
+// getCountryData("portugal");
+getCountryData("mexico");
