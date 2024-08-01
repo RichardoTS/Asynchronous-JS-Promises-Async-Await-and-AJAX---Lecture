@@ -73,12 +73,12 @@ const renderCountry = function (data, className = "") {
     `;
 
   countriesContainer.insertAdjacentHTML("beforeend", html);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 const renderError = function (msg) {
   countriesContainer.insertAdjacentText("beforeend", msg);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 const getJSON = function (url, errorMsg = "Something went wrong") {
@@ -329,15 +329,15 @@ GOOD LUCK 😀
 //     console.log("I waited for 1 second");
 //   });
 
-const getPosition = function () {
-  return new Promise(function (resolve, reject) {
-    // navigator.geolocation.getCurrentPosition(
-    //   position => resolve(position),
-    //   err => reject(err)
-    // );
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  });
-};
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     // navigator.geolocation.getCurrentPosition(
+//     //   position => resolve(position),
+//     //   err => reject(err)
+//     // );
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
 
 // getPosition().then(pos => console.log(pos));
 
@@ -417,5 +417,38 @@ const getPosition = function () {
 //   })
 //   .then(() => {
 //     currentImg.style.display = "none";
+//     return createImage("img/img-3.jpg");
+//   })
+//   .then(img => {
+//     currentImg = img;
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = "none";
 //   })
 //   .catch(err => console.error(err));
+
+///////////////////////////////////////////
+
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+
+// const whereAmI = async function (country) {
+//   const pos = await getPosition();
+//   const { latitude: lat, longitude: lng } = pos.coords;
+
+//   const resGeo = await fetch(
+//     `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+//   );
+//   console.log(resGeo);
+
+//   const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+//   const data = await res.json();
+//   console.log(data);
+//   renderCountry(data[0]);
+// };
+// whereAmI("portugal");
+// console.log("FIRST");
